@@ -160,4 +160,30 @@ describe("loader", function() {
 
   });
 
+  it("Should not force relative urls when asked using options", function () {
+
+    var self = {};
+
+    self.options = {
+      angular2TemplateLoader: {
+        forceRelative: false
+      }
+    };
+
+    loader.call(self, fixtures.componentWithoutRelPeriodSlash)
+        .should
+        .be
+        .eql(`
+  import {Component} from '@angular/core';
+
+  @Component({
+    selector: 'test-component',
+    template: require('file.html'),
+    styles: [require('styles.css')]
+  })
+  export class TestComponent {}
+`
+        );
+
+  });
 });
